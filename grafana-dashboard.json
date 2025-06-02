@@ -38,7 +38,7 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -71,8 +71,8 @@
       "id": 1,
       "options": {
         "legend": {
-          "calcs": ["mean", "max", "min"],
-          "displayMode": "table",
+          "calcs": [],
+          "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
         },
@@ -88,13 +88,24 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "csv_metrics_robot_temperature_celsius",
-          "legendFormat": "{{robot_id}}",
+          "expr": "csv_metrics_robot_temperature_celsius{job=\"otel-metrics\"}",
+          "legendFormat": "OTel - {{robot_id}}",
           "range": true,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "DirectPrometheus"
+          },
+          "editorMode": "code",
+          "expr": "direct_robot_temperature_celsius{job=\"direct-metrics\"}",
+          "legendFormat": "Direct - {{robot_id}}",
+          "range": true,
+          "refId": "B"
         }
       ],
-      "title": "Robot Temperature",
+      "title": "Temperature Comparison",
       "type": "timeseries"
     },
     {
@@ -159,8 +170,8 @@
       "id": 2,
       "options": {
         "legend": {
-          "calcs": ["mean", "max", "min"],
-          "displayMode": "table",
+          "calcs": [],
+          "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
         },
@@ -176,13 +187,24 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "rate(csv_metrics_csv_rows_processed_total[1m])",
-          "legendFormat": "{{robot_id}}",
+          "expr": "rate(csv_metrics_csv_rows_processed_total{job=\"otel-metrics\"}[1m])",
+          "legendFormat": "OTel - {{robot_id}}",
           "range": true,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "DirectPrometheus"
+          },
+          "editorMode": "code",
+          "expr": "rate(direct_csv_rows_processed_total{job=\"direct-metrics\"}[1m])",
+          "legendFormat": "Direct - {{robot_id}}",
+          "range": true,
+          "refId": "B"
         }
       ],
-      "title": "Rows Processed Rate",
+      "title": "Processing Rate Comparison",
       "type": "timeseries"
     }
   ],
@@ -199,8 +221,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Robot Metrics Dashboard",
-  "uid": "robot-metrics",
+  "title": "CSV to Metrics Comparison",
+  "uid": "csv-metrics-comparison",
   "version": 1,
   "weekStart": ""
 } 

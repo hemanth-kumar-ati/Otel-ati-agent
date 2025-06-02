@@ -1,0 +1,8 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'direct-metrics'
+    static_configs:
+      - targets: ['direct-converter:8000']  # Internal Docker network port 

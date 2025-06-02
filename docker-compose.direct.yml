@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  direct-converter:
+    build: ./direct-converter
+    volumes:
+      - ./data.csv:/data.csv
+    ports:
+      - "8001:8000"
+
+  direct-prometheus:
+    image: prom/prometheus:latest
+    container_name: timeseries-direct-prometheus-1
+    volumes:
+      - ./direct-prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9091:9090"  # Different port to avoid conflict
+    depends_on:
+      - direct-converter
